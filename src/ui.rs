@@ -26,20 +26,23 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
 
     f.render_widget(header, chunks[0]);
 
-    let title = match app.mode {
-        Mode::Dashboard => "Dashboard",
-        Mode::Music => "Music",
-        Mode::Focus => "Focus",
-        Mode::Git => "Git",
-        Mode::Chat => "Chat",
-        Mode::Art=> "Art",
-    };
+    // let title = match app.mode {
+    //     Mode::Dashboard => "Dashboard",
+    //     Mode::Music => "Music",
+    //     Mode::Focus => "Focus",
+    //     Mode::Git => "Git",
+    //     Mode::Chat => "Chat",
+    //     Mode::Art=> "Art",
+    // };
 
-    let glitch = if app.tick % 10 < 5 { "█▓▒░" } else { "░▒▓█" } ;
+    // let glitch = if app.tick % 10 < 5 { "█▓▒░" } else { "░▒▓█" } ;
+    let stats = &app.system_stats;
 
     let body = Paragraph::new(format!(
-    "\n [{} Mode]\n\n System Status: Online\n Signal: Stable\n\n {}\n",
-        title, glitch
+        "\n  CPU: {:.1}%\n  RAM: {} / {} MB\n\n  STATUS: ONLINE\n",
+        stats.cpu,
+        stats.memory_used / 1024,
+        stats.memory_total / 1024
     ))
     .block(
             Block::default()

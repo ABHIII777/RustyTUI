@@ -10,6 +10,7 @@ use ratatui::{backend::CrosstermBackend, Terminal};
 mod app;
 mod input;
 mod ui;
+mod core;
 
 use app::App;
 
@@ -38,7 +39,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
 
-        app.next_tick();
+        app.update();
     }
 
     // cleanup
