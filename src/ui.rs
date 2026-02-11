@@ -26,31 +26,80 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
 
     f.render_widget(header, chunks[0]);
 
-    // let title = match app.mode {
-    //     Mode::Dashboard => "Dashboard",
-    //     Mode::Music => "Music",
-    //     Mode::Focus => "Focus",
-    //     Mode::Git => "Git",
-    //     Mode::Chat => "Chat",
-    //     Mode::Art=> "Art",
-    // };
+    match app.mode {
+        Mode::Dashboard => {
+            let body = Paragraph::new("Welcome to RustyTUI! Use the menu below to navigate.")
+                .block(
+                    Block::default()
+                        .borders(Borders::ALL)
+                        .style(Style::default().fg(Color::Yellow)),
+                );
+
+            f.render_widget(body, chunks[1]);
+        },
+        Mode::Music => {
+            let body = Paragraph::new("Music Player - Now Playing: 'Rusty Beats' by The Code Band")
+                .block(
+                    Block::default()
+                        .borders(Borders::ALL)
+                        .style(Style::default().fg(Color::Green)),
+                );
+            f.render_widget(body, chunks[1]);
+        },
+        Mode::Focus => {
+            let body = Paragraph::new("Focus Mode - Time to concentrate!")
+                .block(
+                    Block::default()
+                        .borders(Borders::ALL)
+                        .style(Style::default().fg(Color::Blue)),
+                );
+            f.render_widget(body, chunks[1]);
+        },
+        Mode::Git => {
+            let body = Paragraph::new("Git Mode - Manage your repositories!")
+                .block(
+                    Block::default()
+                        .borders(Borders::ALL)
+                        .style(Style::default().fg(Color::Red)),
+                );
+            f.render_widget(body, chunks[1]);
+        },
+        Mode::Chat => {
+            let body = Paragraph::new("Chat Mode - Communicate with others!")
+                .block(
+                    Block::default()
+                        .borders(Borders::ALL)
+                        .style(Style::default().fg(Color::Blue)),
+                );
+            f.render_widget(body, chunks[1]);
+        },
+        Mode::Art=> {
+            let body = Paragraph::new("Art Mode - Create and explore!")
+                .block(
+                    Block::default()
+                        .borders(Borders::ALL)
+                        .style(Style::default().fg(Color::Cyan)),
+                );
+            f.render_widget(body, chunks[1]);
+        },
+    };
 
     // let glitch = if app.tick % 10 < 5 { "█▓▒░" } else { "░▒▓█" } ;
-    let stats = &app.system_stats;
+    // let stats = &app.system_stats;
 
-    let body = Paragraph::new(format!(
-        "\n  CPU: {:.1}%\n  RAM: {} / {} MB\n\n  STATUS: ONLINE\n",
-        stats.cpu,
-        stats.memory_used / 1024,
-        stats.memory_total / 1024
-    ))
-    .block(
-            Block::default()
-                .borders(Borders::ALL)
-                    .style(Style::default().fg(Color::Magenta)),
-    );
+    // let body = Paragraph::new(format!(
+    //     "\n  CPU: {:.1}%\n  RAM: {} / {} MB\n\n  STATUS: ONLINE\n",
+    //     stats.cpu,
+    //     stats.memory_used / 1024,
+    //     stats.memory_total / 1024
+    // ))
+    // .block(
+    //         Block::default()
+    //             .borders(Borders::ALL)
+    //                 .style(Style::default().fg(Color::Magenta)),
+    // );
 
-    f.render_widget(body, chunks[1]);
+    // f.render_widget(body, chunks[1]);
 
     let footer = Paragraph::new(
         " [1] Dash [2] Music [3] Focus [4] git [5] Chat [6] Art | q:Quit ",
