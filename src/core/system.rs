@@ -6,6 +6,8 @@ pub struct SystemStats {
     pub memory_total: u64,
     pub uptime: u64,
     pub disks: Vec<(String, u64, u64)>,
+    pub network_rx: u64,
+    pub network_tx: u64,
 }
 
 pub struct SystemMonitor {
@@ -30,6 +32,7 @@ impl SystemMonitor {
         let memory_used = self.system.used_memory();
         let memory_total = self.system.total_memory();
         let uptime = self.system.uptime();
+        let per_core = self.system.cpus().iter().map(|c| c.cpu_usage()).collect();
 
         let disks = self.system.disks()
             .iter()
@@ -42,12 +45,21 @@ impl SystemMonitor {
             })
             .collect();
 
+        let mut rx = 0;
+        let mut tx = 0;
+        for (_, data) in self.system.networks() {
+            rx += data.received();
+            tx += data.transmitted();
+        }
+
         SystemStats {
             cpu,
             memory_used,
             memory_total,
             uptime,
             disks,
+            network_rx: rx,
+            network_tx: tx,
         }
     }
 }

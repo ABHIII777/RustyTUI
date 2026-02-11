@@ -6,7 +6,6 @@ use ratatui:: {
 };
 
 use crate::app::{App, Mode};
-use ratatui::text::Line;
 
 pub fn draw_ui(f: &mut Frame, app: &App) {
     let size = f.size();
