@@ -6,6 +6,7 @@ use ratatui:: {
 };
 
 use crate::app::{App, Mode};
+use ratatui::text::Line;
 
 pub fn draw_ui(f: &mut Frame, app: &App) {
     let size = f.size();
@@ -28,12 +29,20 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
 
     match app.mode {
         Mode::Dashboard => {
-            let body = Paragraph::new("Welcome to RustyTUI! Use the menu below to navigate.")
-                .block(
-                    Block::default()
-                        .borders(Borders::ALL)
-                        .style(Style::default().fg(Color::Yellow)),
-                );
+
+            let stats = &app.system_stats;
+
+            let text = vec![
+                Line::from(format!(
+                    "\n  CPU: {:.1}%\n  RAM: {} / {} MB\n\n  STATUS: ONLINE\n",
+                    stats.cpu,
+                    stats.memory_used / 1024,
+                    stats.memory_total / 1024
+                ))
+            ];
+
+            let body = Paragraph::new(text)
+                .block(Block::default().borders(Borders::ALL));
 
             f.render_widget(body, chunks[1]);
         },
@@ -88,10 +97,6 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
     // let stats = &app.system_stats;
 
     // let body = Paragraph::new(format!(
-    //     "\n  CPU: {:.1}%\n  RAM: {} / {} MB\n\n  STATUS: ONLINE\n",
-    //     stats.cpu,
-    //     stats.memory_used / 1024,
-    //     stats.memory_total / 1024
     // ))
     // .block(
     //         Block::default()
