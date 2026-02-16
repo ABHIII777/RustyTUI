@@ -1,0 +1,9 @@
+/Users/abhipatel/Documents/Developer/RustyTUI/target/debug/deps/objc2_io_kit-21340d56680e01b4.d: /Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/lib.rs /Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/consumes_argument.rs /Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/generated/mod.rs /Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/generated/hidsystem.rs /Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/macros.rs
+
+/Users/abhipatel/Documents/Developer/RustyTUI/target/debug/deps/libobjc2_io_kit-21340d56680e01b4.rmeta: /Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/lib.rs /Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/consumes_argument.rs /Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/generated/mod.rs /Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/generated/hidsystem.rs /Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/macros.rs
+
+/Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/lib.rs:
+/Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/consumes_argument.rs:
+/Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/generated/mod.rs:
+/Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/generated/hidsystem.rs:
+/Users/abhipatel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-io-kit-0.3.1/src/macros.rs:
