@@ -7,6 +7,7 @@ use ratatui:: {
 };
 
 use crate::app::{App, Mode};
+use std::process::Command;
 
 pub fn draw_ui(f: &mut Frame, app: &App) {
     let size = f.area();
@@ -16,7 +17,8 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
         .constraints([
             Constraint::Length(3),
             Constraint::Min(0),
-            Constraint::Length(2),
+            Constraint::Length(3),
+            Constraint::Length(3),
         ])
         .split(size);
 
@@ -132,13 +134,42 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
             f.render_widget(body, chunks[1]);
         },
         Mode::Git => {
-            let body = Paragraph::new("Git Mode - Manage your repositories!")
-                .block(
-                    Block::default()
-                        .borders(Borders::ALL)
-                        .style(Style::default().fg(Color::Red)),
-                );
-            f.render_widget(body, chunks[1]);
+            match Command::new("lazygit").output() {
+                Ok(result) => {
+                    let stdout = String::from_utf8_lossy(&result.stdout);
+                    let stderr = String::from_utf8_lossy(&result.stderr);
+
+                    if !stdout.is_empty() {
+                        let body = Paragraph::new(stdout)
+                            .block(
+                                Block::default()
+                                    .borders(Borders::ALL)
+                                    .style(Style::default().fg(Color::Red)),
+                            );
+                        f.render_widget(body, chunks[1]);
+                    }
+
+                    if !stderr.is_empty() {
+                        let body = Paragraph::new(stderr)
+                            .block(
+                                Block::default()
+                                    .borders(Borders::ALL)
+                                    .style(Style::default().fg(Color::Red)),
+                            );
+                        f.render_widget(body, chunks[1]);
+                    }
+                }
+
+                Err(e) => {
+                    let body = Paragraph::new(format!("Failed to launch lazygit: {}", e))
+                        .block(
+                            Block::default()
+                                .borders(Borders::ALL)
+                                .style(Style::default().fg(Color::Red)),
+                        );
+                    f.render_widget(body, chunks[1]);
+                }
+            }
         },
         Mode::Chat => {
             let body = Paragraph::new("Chat Mode - Communicate with others!")
@@ -160,11 +191,22 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
         },
     };
 
+    let input_field = Paragraph::new(app.input.as_str())
+        .block(
+            Block::default()
+                .title(" Command ")
+                .borders(Borders::ALL)
+                .style(Style::default().fg(Color::Yellow)),
+        );
+
+    f.render_widget(input_field, chunks[2]);
+
+
     let footer = Paragraph::new(
         " [1] Dash [2] Music [3] Focus [4] git [5] Chat [6] Art | q:Quit ",
     )
     .style(Style::default().fg(Color::Green))
     .block(Block::default().borders(Borders::ALL));
 
-    f.render_widget(footer, chunks[2]);
+    f.render_widget(footer, chunks[3]);
 }

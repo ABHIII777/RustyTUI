@@ -16,6 +16,7 @@ pub struct App {
     pub tick: u64,
     pub system: SystemMonitor,
     pub system_stats: SystemStats,
+    pub input: String,
 }
 
 impl App {
@@ -29,6 +30,7 @@ impl App {
             tick: 0,
             system,
             system_stats: stats,
+            input: String::new(),
         }
     }
 
