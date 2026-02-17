@@ -228,6 +228,39 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
                     f.render_widget(body, leftGridCells[2]);
                 }
             };
+
+            let gitStash = match Command::new("git").arg("stash").output() {
+                Ok(result) => {
+                    let stdout = String::from_utf8_lossy(&result.stdout);
+                    let stderr = String::from_utf8_lossy(&result.stderr);
+
+                    if !stdout.is_empty() {
+                        let body = Paragraph::new(stdout)
+                            .block(
+                                Block::default()
+                                    .borders(Borders::ALL)
+                                    .style(Style::default().fg(Color::Blue)),
+                            );
+                        f.render_widget(body, leftGridCells[4]);
+                    }
+
+                    if !stderr.is_empty() {
+                        let body = Paragraph::new(stderr)
+                            .block(
+                                Block::default()
+                                    .borders(Borders::ALL)
+                                    .style(Style::default().fg(Color::Yellow))
+                            );
+                        f.render_widget(body, leftGridCells[4]);
+                    }
+                }
+
+                Err(e) => {
+                    let body = Paragraph::new(format!("Failed to get git stash...{}", e));
+
+                    f.render_widget(body, leftGridCells[4]);
+                }
+            };
         },
         Mode::Chat => {
             let body = Paragraph::new("Chat Mode - Communicate with others!")
