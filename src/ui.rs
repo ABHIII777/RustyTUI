@@ -134,7 +134,26 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
             f.render_widget(body, chunks[1]);
         },
         Mode::Git => {
-            match Command::new("lazygit").output() {
+            let grid = Layout::default()
+                .direction(Direction::Horizontal)
+                .constraints([
+                    Constraint::Percentage(40),
+                    Constraint::Percentage(60),
+                ])
+                .split(chunks[1]);
+
+            let leftGridCells = Layout::default()
+                .direction(Direction::Vertical)
+                .constraints([
+                    Constraint::Percentage(15),
+                    Constraint::Percentage(25),
+                    Constraint::Percentage(25),
+                    Constraint::Percentage(25),
+                    Constraint::Percentage(10),
+                ])
+                .split(grid[0]);
+
+            let git_Branches = match Command::new("git").arg("branch").output() {
                 Ok(result) => {
                     let stdout = String::from_utf8_lossy(&result.stdout);
                     let stderr = String::from_utf8_lossy(&result.stderr);
@@ -144,9 +163,10 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
                             .block(
                                 Block::default()
                                     .borders(Borders::ALL)
+                                    .title("Git Branches")
                                     .style(Style::default().fg(Color::Red)),
                             );
-                        f.render_widget(body, chunks[1]);
+                        f.render_widget(body, leftGridCells[2]);
                     }
 
                     if !stderr.is_empty() {
@@ -156,20 +176,20 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
                                     .borders(Borders::ALL)
                                     .style(Style::default().fg(Color::Red)),
                             );
-                        f.render_widget(body, chunks[1]);
+                        f.render_widget(body, leftGridCells[2]);
                     }
                 }
 
                 Err(e) => {
-                    let body = Paragraph::new(format!("Failed to launch lazygit: {}", e))
+                    let body = Paragraph::new(format!("Failed to get git branches: {}", e))
                         .block(
                             Block::default()
                                 .borders(Borders::ALL)
                                 .style(Style::default().fg(Color::Red)),
                         );
-                    f.render_widget(body, chunks[1]);
+                    f.render_widget(body, leftGridCells[2]);
                 }
-            }
+            };
         },
         Mode::Chat => {
             let body = Paragraph::new("Chat Mode - Communicate with others!")
