@@ -153,6 +153,44 @@ pub fn draw_ui(f: &mut Frame, app: &App) {
                 ])
                 .split(grid[0]);
 
+            let gitReflogs = match Command::new("git").arg("reflog").output() {
+                Ok(result) => {
+                    let stdout = String::from_utf8_lossy(&result.stdout);
+                    let stderr = String::from_utf8_lossy(&result.stderr);
+
+                    if !stdout.is_empty() {
+                        let body = Paragraph::new(stdout)
+                            .block(
+                                Block::default()
+                                    .borders(Borders::ALL)
+                                    .title("Git Reflogs")
+                                    .style(Style::default().fg(Color::Yellow)),
+                            );
+                        f.render_widget(body, leftGridCells[3]);
+                    }
+
+                    if !stderr.is_empty() {
+                        let body = Paragraph::new(stderr)
+                            .block(
+                                Block::default()
+                                    .borders(Borders::ALL)
+                                    .style(Style::default().fg(Color::Yellow)),
+                            );
+                        f.render_widget(body, leftGridCells[3]);
+                    }
+                }
+
+                Err(e) => {
+                    let body = Paragraph::new(format!("Failed to get git reflogs... {}", e))
+                        .block(
+                            Block::default()
+                                .borders(Borders::ALL)
+                                .style(Style::default().fg(Color::Yellow))
+                        );
+                    f.render_widget(body, leftGridCells[3]);
+                }
+            };
+
             let git_Branches = match Command::new("git").arg("branch").output() {
                 Ok(result) => {
                     let stdout = String::from_utf8_lossy(&result.stdout);
